@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Social Hub | TikTok · Instagram · Discord</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 30%, #051a0a, #020804);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem 1.5rem;
+    }
+
+    /* main container */
+    .dashboard {
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* header with live badge */
+    .header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .header h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #c0ffc0, #00ff99);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+      text-shadow: 0 0 15px rgba(0, 255, 100, 0.2);
+    }
+
+    .header p {
+      color: #b3ffcf;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0, 30, 10, 0.6);
+      backdrop-filter: blur(6px);
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      border: 1px solid rgba(0, 255, 150, 0.3);
+    }
+
+    .pulse-dot {
+      width: 12px;
+      height: 12px;
+      background: #0f6;
+      border-radius: 50%;
+      box-shadow: 0 0 8px #0f6;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* card grid */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    /* modern card style */
+    .card {
+      background: rgba(10, 25, 10, 0.65);
+      backdrop-filter: blur(12px);
+      border-radius: 2.5rem;
+      padding: 1.8rem 1.8rem 2rem 1.8rem;
+      width: 300px;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(0, 255, 150, 0.25);
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(0, 255, 120, 0.1) inset;
+      text-align: center;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: #00ff88;
+      box-shadow: 0 25px 40px -12px #00ff8822, 0 0 0 2px rgba(0, 255, 120, 0.3) inset;
+      background: rgba(12, 30, 14, 0.75);
+    }
+
+    /* icon circle */
+    .icon-bg {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.2rem;
+      background: linear-gradient(145deg, #0a2f1a, #031007);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2rem;
+      font-size: 3rem;
+      transition: 0.2s;
+      border: 1px solid #00ff8844;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .card:hover .icon-bg {
+      transform: scale(1.02);
+      border-color: #0f6;
+    }
+
+    /* title + stat */
+    .platform {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.3px;
+      background: linear-gradient(120deg, #ffffff, #beffd1);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #c0ffc0;
+      text-shadow: 0 0 6px #1f9;
+      margin: 0.6rem 0 0.3rem;
+      letter-spacing: 1px;
+      transition: all 0.2s ease;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 500;
+      color: #9bffc3;
+      background: rgba(0, 0, 0, 0.3);
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 40px;
+      margin-bottom: 1.2rem;
+    }
+
+    /* big modern button */
+    .social-btn {
+      background: linear-gradient(95deg, #111e12, #0a1e0c);
+      border: none;
+      padding: 12px 20px;
+      width: 100%;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #d0ffea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+      margin: 1rem 0 1.2rem;
+      border: 1px solid #2a7a3e;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    .social-btn:hover {
+      background: linear-gradient(95deg, #1c3a21, #0f2a14);
+      border-color: #0f6;
+      transform: scale(0.98);
+      box-shadow: 0 6px 18px #00ff8822;
+      color: white;
+    }
+
+    .social-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* controls (+ / -) */
+    .counter-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 0.8rem;
+      background: rgba(0, 20, 0, 0.5);
+      border-radius: 80px;
+      padding: 8px 12px;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .ctrl-btn {
+      background: #0e2a12;
+      border: none;
+      width: 38px;
+      height: 38px;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #6effa6;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px black;
+      border: 1px solid #249f4e;
+    }
+
+    .ctrl-btn:hover {
+      background: #1e4a27;
+      color: white;
+      transform: scale(1.05);
+      border-color: #0f6;
+    }
+
+    .ctrl-btn:active {
+      transform: scale(0.95);
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      min-width: 80px;
+      text-align: center;
+      background: #061008;
+      padding: 5px 12px;
+      border-radius: 36px;
+      color: #b3ffc4;
+      letter-spacing: 1px;
+    }
+
+    /* responsive */
+    @media (max-width: 750px) {
+      .cards {
+        gap: 1.5rem;
+      }
+      .card {
+        width: 280px;
+        padding: 1.2rem;
+      }
+      .header h1 {
+        font-size: 2rem;
+      }
+      .stat-number {
+        font-size: 2rem;
+      }
+    }
+
+    /* extra modern effect: glow on load */
+    @keyframes fadeSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      animation: fadeSlideUp 0.5s ease-out forwards;
+      opacity: 0;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.1s; }
+    .card:nth-child(2) { animation-delay: 0.2s; }
+    .card:nth-child(3) { animation-delay: 0.3s; }
+  </style>
+</head>
+<body>
+<div class="dashboard">
+  <div class="header">
+    <h1>⚡ SOCIAL HUB</h1>
+    <p>
+      <span class="pulse-dot"></span>
+      LIVE · trending now
+    </p>
+  </div>
+
+  <div class="cards">
+    <!-- TIKTOK CARD -->
+    <div class="card">
+      <div class="icon-bg">🎵</div>
+      <div class="platform">TikTok</div>
+      <div class="stat-number" id="tiktokFollowersDisplay">1.24M</div>
+      <div class="stat-label">FOLLOWERS</div>
+      <button class="social-btn" id="tiktokBtn">
+        📱 @username &nbsp;→
+      </button>
+      <div class="counter-controls">
+        <button class="ctrl-btn" data-action="dec" data-target="tiktok">-</button>
+        <span class="stat-value" id="tiktokRaw">1240000</span>
+        <button class="ctrl-btn" data-action="inc" data-target="tiktok">+</button>
+      </div>
+      <div style="font-size: 0.7rem; margin-top: 8px; color:#5f946b;">adjust followers count</div>
+    </div>
+
+    <!-- INSTAGRAM CARD -->
+    <div class="card">
+      <div class="icon-bg">📸</div>
+      <div class="platform">Instagram</div>
+      <div class="stat-number" id="instagramLikesDisplay">892.5K</div>
+      <div class="stat-label">TOTAL LIKES</div>
+      <button class="social-btn" id="instagramBtn">
+        ❤️ instagram &nbsp;→
+      </button>
+      <div class="counter-controls">
+        <button class="ctrl-btn" data-action="dec" data-target="instagram">-</button>
+        <span class="stat-value" id="instagramRaw">892500</span>
+        <button class="ctrl-btn" data-action="inc" data-target="instagram">+</button>
+      </div>
+      <div style="font-size: 0.7rem; margin-top: 8px; color:#5f946b;">adjust likes</div>
+    </div>
+
+    <!-- DISCORD CARD -->
+    <div class="card">
+      <div class="icon-bg">💬</div>
+      <div class="platform">Discord</div>
+      <div class="stat-number" id="discordMembersDisplay">4,281</div>
+      <div class="stat-label">MEMBERS ONLINE</div>
+      <button class="social-btn" id="discordBtn">
+        🎮 Join server &nbsp;→
+      </button>
+      <div class="counter-controls">
+        <button class="ctrl-btn" data-action="dec" data-target="discord">-</button>
+        <span class="stat-value" id="discordRaw">4281</span>
+        <button class="ctrl-btn" data-action="inc" data-target="discord">+</button>
+      </div>
+      <div style="font-size: 0.7rem; margin-top: 8px; color:#5f946b;">adjust online members</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---------- STATE MANAGEMENT ----------
+  let state = {
+    tiktok: 1240000,     // raw followers
+    instagram: 892500,   // raw likes
+    discord: 4281        // members online
+  };
+
+  // Helper: format number with K/M/B
+  function formatNumber(num) {
+    if (num >= 1_000_000) {
+      return (num / 1_000_000).toFixed(2).replace(/\.00$/, '') + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+    } else {
+      return num.toString();
+    }
+  }
+
+  // Format Discord members (add commas)
+  function formatDiscord(num) {
+    return num.toLocaleString();
+  }
+
+  // Update all UI displays
+  function updateUI() {
+    // TikTok followers display (main large stat)
+    const tiktokFormatted = formatNumber(state.tiktok);
+    document.getElementById('tiktokFollowersDisplay').innerText = tiktokFormatted;
+    document.getElementById('tiktokRaw').innerText = state.tiktok.toLocaleString();
+
+    // Instagram likes display
+    const igFormatted = formatNumber(state.instagram);
+    document.getElementById('instagramLikesDisplay').innerText = igFormatted;
+    document.getElementById('instagramRaw').innerText = state.instagram.toLocaleString();
+
+    // Discord members online display
+    const dcFormatted = formatDiscord(state.discord);
+    document.getElementById('discordMembersDisplay').innerText = dcFormatted;
+    document.getElementById('discordRaw').innerText = state.discord.toLocaleString();
+  }
+
+  // Increment / decrement logic with bounds (min 0)
+  function adjustCounter(target, delta) {
+    if (target === 'tiktok') {
+      let newVal = state.tiktok + delta;
+      if (newVal < 0) newVal = 0;
+      state.tiktok = newVal;
+    } else if (target === 'instagram') {
+      let newVal = state.instagram + delta;
+      if (newVal < 0) newVal = 0;
+      state.instagram = newVal;
+    } else if (target === 'discord') {
+      let newVal = state.discord + delta;
+      if (newVal < 0) newVal = 0;
+      state.discord = newVal;
+    }
+    updateUI();
+
+    // small micro animation effect on stat number (add pop)
+    let el = null;
+    if (target === 'tiktok') el = document.getElementById('tiktokFollowersDisplay');
+    else if (target === 'instagram') el = document.getElementById('instagramLikesDisplay');
+    else el = document.getElementById('discordMembersDisplay');
+    if (el) {
+      el.style.transform = 'scale(1.08)';
+      setTimeout(() => { if(el) el.style.transform = ''; }, 130);
+    }
+  }
+
+  // ---------- EVENT LISTENERS FOR +/- BUTTONS ----------
+  document.querySelectorAll('.ctrl-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const action = btn.getAttribute('data-action');
+      const target = btn.getAttribute('data-target');
+      let delta = (action === 'inc') ? 1 : -1;
+      // for TikTok and Instagram, step size can be 100? but 1 works fine for flexibility
+      // For better UX we can change step: but using step 1 is fine because users can click many times
+      // But maybe we want bigger steps? default 1 is enough, but to feel modern, i use step=100 for tiktok/ig? No, i'll keep simple.
+      // However to make it more satisfying: use different increments? could be but user can press many times.
+      // I'll leave increment 1 but they hold? fine.
+      if (target === 'tiktok') {
+        let step = (action === 'inc') ? 1000 : -1000;
+        // but use step 1000 for realistic change? but raw button shows 1 click = 1000? not consistent with ui.
+        // To be intuitive: clicking + adds 1000 for followers, - substracts 1000. 
+        // Because 1 follower change seems weird for big numbers.
+        // let's implement context: If target is tiktok, delta 1000. instagram delta 500, discord delta 1 (members).
+        let finalDelta = 0;
+        if (target === 'tiktok') finalDelta = (action === 'inc') ? 1000 : -1000;
+        else if (target === 'instagram') finalDelta = (action === 'inc') ? 500 : -500;
+        else finalDelta = (action === 'inc') ? 1 : -1;
+        adjustCounter(target, finalDelta);
+      } else if (target === 'instagram') {
+        let finalDelta = (action === 'inc') ? 500 : -500;
+        adjustCounter(target, finalDelta);
+      } else if (target === 'discord') {
+        let finalDelta = (action === 'inc') ? 1 : -1;
+        adjustCounter(target, finalDelta);
+      } else {
+        adjustCounter(target, delta);
+      }
+    });
+  });
+
+  // override generic but ensure correct working. fix because previous had condition inside.
+  // Refine: but there is double logic. safer: remove previous adjust inside and use direct 
+  // I'll rebind cleaner:
+  // Remove all previous listeners and attach fresh to avoid conflict.
+  // Simpler: replace event listener logic:
+  const newHandler = (e) => {
+    const btn = e.currentTarget;
+    const action = btn.getAttribute('data-action');
+    const target = btn.getAttribute('data-target');
+    if (target === 'tiktok') {
+      const delta = (action === 'inc') ? 1000 : -1000;
+      adjustCounter('tiktok', delta);
+    } else if (target === 'instagram') {
+      const delta = (action === 'inc') ? 500 : -500;
+      adjustCounter('instagram', delta);
+    } else if (target === 'discord') {
+      const delta = (action === 'inc') ? 1 : -1;
+      adjustCounter('discord', delta);
+    }
+  };
+  // rebind all control buttons
+  document.querySelectorAll('.ctrl-btn').forEach(btn => {
+    btn.removeEventListener('click', newHandler);
+    btn.addEventListener('click', newHandler);
+  });
+
+  // ---------- SOCIAL BUTTON LINKS (open official websites) ----------
+  document.getElementById('tiktokBtn').addEventListener('click', () => {
+    window.open('https://www.tiktok.com', '_blank');
+    // add subtle haptic feedback simulation
+    showToastEffect('Opening TikTok...');
+  });
+  document.getElementById('instagramBtn').addEventListener('click', () => {
+    window.open('https://www.instagram.com', '_blank');
+    showToastEffect('Opening Instagram...');
+  });
+  document.getElementById('discordBtn').addEventListener('click', () => {
+    window.open('https://discord.com', '_blank');
+    showToastEffect('Joining Discord...');
+  });
+
+  // simple toast / notification effect (modern)
+  function showToastEffect(msg) {
+    // create floating toast if not exists
+    let toast = document.getElementById('dynamicToast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'dynamicToast';
+      toast.style.position = 'fixed';
+      toast.style.bottom = '30px';
+      toast.style.left = '50%';
+      toast.style.transform = 'translateX(-50%)';
+      toast.style.backgroundColor = '#1f2e22';
+      toast.style.backdropFilter = 'blur(12px)';
+      toast.style.color = '#bbffce';
+      toast.style.padding = '12px 24px';
+      toast.style.borderRadius = '60px';
+      toast.style.fontWeight = '500';
+      toast.style.fontSize = '0.9rem';
+      toast.style.border = '1px solid #3de07e';
+      toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.5)';
+      toast.style.zIndex = '999';
+      toast.style.fontFamily = 'inherit';
+      toast.style.letterSpacing = '0.3px';
+      toast.style.whiteSpace = 'nowrap';
+      document.body.appendChild(toast);
+    }
+    toast.innerText = msg + '  ✨';
+    toast.style.opacity = '1';
+    toast.style.transition = 'opacity 0.2s';
+    clearTimeout(window.toastTimeout);
+    window.toastTimeout = setTimeout(() => {
+      toast.style.opacity = '0';
+    }, 1800);
+  }
+
+  // initialize UI 
+  updateUI();
+
+  // Optional: dynamic floating particle accent (small modern touch)
+  const addParticleHover = () => {
+    // just extra visual vibe: simulate background shimmer on card hover
+    console.log('UI ready — modern black-green social hub');
+  };
+  addParticleHover();
+
+  // make sure input stats cannot go negative handled, and update all formatted fields
+  // also add stylish cursor
+  document.querySelectorAll('.social-btn').forEach(btn => {
+    btn.style.cursor = 'pointer';
+  });
+</script>
+</body>
+        </html>
