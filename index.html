@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>E-MotoPrix | Komunitas Digital Modern</title>
+  <!-- Google Fonts + Font Awesome 6 (free) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      transition: background-color 0.35s ease, color 0.3s ease;
+      scroll-behavior: smooth;
+    }
+
+    /* CSS VARIABLES - LIGHT MODE (default) */
+    :root {
+      --bg-primary: #ffffff;
+      --bg-secondary: #f9fafb;
+      --bg-card: #ffffff;
+      --bg-card-hover: #ffffff;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --border-light: #e2e8f0;
+      --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+      --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 25px 40px -14px rgba(0, 0, 0, 0.15);
+      --accent-glow: rgba(99, 102, 241, 0.2);
+      --toggle-bg: #e2e8f0;
+      --toggle-knob: #ffffff;
+    }
+
+    /* DARK MODE OVERRIDES */
+    body.dark {
+      --bg-primary: #030712;
+      --bg-secondary: #111827;
+      --bg-card: #1f2937;
+      --bg-card-hover: #273544;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --border-light: #334155;
+      --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 20px 30px -12px rgba(0, 0, 0, 0.6);
+      --shadow-hover: 0 28px 38px -16px rgba(0, 0, 0, 0.7);
+      --accent-glow: rgba(139, 92, 246, 0.35);
+      --toggle-bg: #334155;
+      --toggle-knob: #cbd5e1;
+    }
+
+    /* Global layout */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.8rem;
+    }
+
+    /* Header modern + sticky soft */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border-light);
+      backdrop-filter: blur(0px);
+      transition: border-color 0.2s;
+    }
+
+    .logo h2 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #5865F2, #10B981);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .theme-toggle {
+      background: var(--toggle-bg);
+      border: none;
+      border-radius: 100px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.4rem;
+      color: var(--text-primary);
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05) rotate(8deg);
+      background: var(--border-light);
+    }
+
+    /* Hero section */
+    .hero {
+      text-align: center;
+      padding: 4rem 0 3rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(88, 101, 242, 0.12);
+      backdrop-filter: blur(4px);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #5865F2;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.3px;
+    }
+
+    body.dark .hero-badge {
+      background: rgba(88, 101, 242, 0.2);
+      color: #8b9dff;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(140deg, var(--text-primary) 30%, #5865F2 70%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      max-width: 680px;
+      margin: 0 auto;
+      color: var(--text-secondary);
+    }
+
+    /* section title modern */
+    .section-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 3rem;
+      letter-spacing: -0.01em;
+      position: relative;
+    }
+
+    .section-title:after {
+      content: '';
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 4px;
+      background: linear-gradient(90deg, #5865F2, #25D366);
+      border-radius: 4px;
+    }
+
+    /* cards platform grid */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0 4rem;
+    }
+
+    .platform-card {
+      background: var(--bg-card);
+      border-radius: 2rem;
+      padding: 2rem 1.8rem;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      backdrop-filter: blur(2px);
+    }
+
+    .platform-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+      border-color: transparent;
+      background: var(--bg-card-hover);
+    }
+
+    .card-icon {
+      font-size: 3.8rem;
+      margin-bottom: 1.2rem;
+      display: inline-block;
+    }
+
+    .discord-icon {
+      color: #5865F2;
+    }
+
+    .whatsapp-icon {
+      color: #25D366;
+    }
+
+    .platform-card h3 {
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .member-stats {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin: 0.8rem 0 1.2rem;
+      font-weight: 500;
+    }
+
+    .member-stats i {
+      margin-right: 4px;
+    }
+
+    .btn-join {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: #1e293b;
+      color: white;
+      padding: 0.9rem 2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.25s;
+      margin-top: 0.5rem;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-discord {
+      background: #5865F2;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+    }
+
+    .btn-join:hover {
+      transform: scale(1.03);
+      filter: brightness(1.05);
+      box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.25);
+      gap: 16px;
+    }
+
+    /* features grid modern */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0 5rem;
+    }
+
+    .feature-item {
+      background: var(--bg-card);
+      border-radius: 1.8rem;
+      padding: 1.8rem;
+      text-align: center;
+      transition: all 0.25s;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-item:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+      background: var(--bg-card-hover);
+    }
+
+    .feature-icon {
+      font-size: 2.3rem;
+      background: linear-gradient(145deg, #5865F2, #8b5cf6);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    body.dark .feature-icon {
+      background: linear-gradient(145deg, #a78bfa, #6ee7b7);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .feature-item h4 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-item p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* footer modern */
+    .footer {
+      margin-top: 4rem;
+      padding: 2rem 0 2.5rem;
+      border-top: 1px solid var(--border-light);
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    .footer .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .footer .social-icons a {
+      color: var(--text-secondary);
+      font-size: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .footer .social-icons a:hover {
+      color: #5865F2;
+      transform: translateY(-3px);
+    }
+
+    /* animasi fade-in sederhana */
+    @keyframes fadeSlideUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero, .platform-grid, .features, .section-title {
+      animation: fadeSlideUp 0.6s ease-out forwards;
+    }
+
+    .platform-card:nth-child(1) { animation-delay: 0.1s; }
+    .platform-card:nth-child(2) { animation-delay: 0.2s; }
+    .feature-item:nth-child(1) { animation-delay: 0.05s; }
+    .feature-item:nth-child(2) { animation-delay: 0.1s; }
+    .feature-item:nth-child(3) { animation-delay: 0.15s; }
+
+    /* Responsive */
+    @media (max-width: 780px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      .container {
+        padding: 0 1.2rem;
+      }
+      .platform-grid {
+        grid-template-columns: 1fr;
+      }
+      .section-title {
+        font-size: 1.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn-join {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+      }
+      .platform-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* custom scroll */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #5865F2;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- header modern -->
+    <nav class="navbar">
+      <div class="logo">
+        <h2><i class="fab fa-discord" style="font-size: 1.6rem; background: none; -webkit-background-clip: unset; color: #5865F2;"></i> EMotoPrix<span style="color: var(--text-primary);">/Faster</span></h2>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+        <i class="fas fa-moon" id="themeIcon"></i>
+      </button>
+    </nav>
+
+    <!-- hero -->
+    <section class="hero">
+      <div class="hero-badge">
+        <i class="fas fa-users"></i>   Komunitas Terbuka & Inklusif
+      </div>
+      <h1>Ruang kolaborasi <br> masa depan</h1>
+      <p>Diskusi interaktif, event mingguan, dan berbagi ilmu. Tersedia di Discord & WhatsApp — pilih jalur favoritmu.</p>
+    </section>
+
+    <!-- dua platform utama -->
+    <div class="section-title">Gabung Platform</div>
+    <div class="platform-grid">
+      <!-- Discord Card -->
+      <div class="platform-card">
+        <div class="card-icon discord-icon">
+          <i class="fab fa-discord fa-3x"></i>
+        </div>
+        <h3>Discord Server</h3>
+        <div class="member-stats">
+          <span><i class="fas fa-circle" style="color: #23a559; font-size: 0.7rem;"></i> 4+ online</span>
+          <span><i class="fas fa-user-plus"></i> 10+ member</span>
+        </div>
+        <p style="margin-bottom: 1.2rem; color: var(--text-secondary);">Voice, text, event game & edukasi. Role eksklusif dan akses dini.</p>
+        <a href="#" class="btn-join btn-discord" id="discordLink" target="_blank">
+          <i class="fab fa-discord"></i> Bergabung Discord
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- WhatsApp Card -->
+      <div class="platform-card">
+        <div class="card-icon whatsapp-icon">
+          <i class="fab fa-whatsapp fa-3x"></i>
+        </div>
+        <h3>WhatsApp Group</h3>
+        <div class="member-stats">
+          <span><i class="fas fa-comment-dots"></i> 65+ aktif</span>
+          <span><i class="fas fa-globe"></i> 24/7 diskusi</span>
+        </div>
+        <p style="margin-bottom: 1.2rem; color: var(--text-secondary);">Update harian, networking cepat, berbagi info dan proyek kolaborasi.</p>
+        <a href="#" class="btn-join btn-whatsapp" id="whatsappLink" target="_blank">
+          <i class="fab fa-whatsapp"></i> Gabung WA
+          <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- fitur keunggulan -->
+    <div class="section-title">Kenapa Bergabung?</div>
+    <div class="features">
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-calendar-alt fa-2x"></i></div>
+        <h4>Event Eksklusif</h4>
+        <p>Workshop, AMA, dan game night tiap minggu. Kesempatan bertemu langsung dengan para ahli.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-rocket"></i></div>
+        <h4>Proyek Kolaborasi</h4>
+        <p>Temukan rekan tim untuk open source, startup, atau kreatif. Bangun portofolio bareng.</p>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+        <h4>Lingkungan Positif</h4>
+        <p>Moderasi aktif, bebas toksik, dan ramah untuk semua latar belakang. #SafeSpace</p>
+      </div>
+    </div>
+
+    <!-- footer sederhana modern -->
+    <footer class="footer">
+      <div class="social-icons">
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      </div>
+      <p>© 2026 E-MotoPrix Community — Komunitas untuk koneksi tanpa batas</p>
+      <p style="font-size: 0.8rem; margin-top: 10px;"><i class="fas fa-code-branch"></i> Tersedia di Discord & WhatsApp | Dark/Light Modern UI</p>
+    </footer>
+  </div>
+
+  <script>
+    (function() {
+      // ======================= DARK / LIGHT MODE =======================
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const body = document.body;
+
+      // Cek preferensi lokal atau sistem
+      const getStoredTheme = () => localStorage.getItem('theme');
+      const setStoredTheme = (theme) => localStorage.setItem('theme', theme);
+
+      // Fungsi mengupdate ikon berdasarkan mode
+      const updateIcon = (isDark) => {
+        if (isDark) {
+          themeIcon.className = 'fas fa-sun';
+          themeIcon.style.transform = 'rotate(0deg)';
+        } else {
+          themeIcon.className = 'fas fa-moon';
+        }
+      };
+
+      // Terapkan theme
+      const applyTheme = (theme) => {
+        if (theme === 'dark') {
+          body.classList.add('dark');
+          updateIcon(true);
+        } else {
+          body.classList.remove('dark');
+          updateIcon(false);
+        }
+      };
+
+      // Toggle manual
+      const toggleTheme = () => {
+        if (body.classList.contains('dark')) {
+          applyTheme('light');
+          setStoredTheme('light');
+        } else {
+          applyTheme('dark');
+          setStoredTheme('dark');
+        }
+      };
+
+      // inisialisasi tema berdasarkan storage / preferensi sistem
+      const initTheme = () => {
+        const stored = getStoredTheme();
+        if (stored === 'dark') {
+          applyTheme('dark');
+        } else if (stored === 'light') {
+          applyTheme('light');
+        } else {
+          // fallback ke preferensi sistem
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (prefersDark) {
+            applyTheme('dark');
+            setStoredTheme('dark');
+          } else {
+            applyTheme('light');
+            setStoredTheme('light');
+          }
+        }
+      };
+
+      themeToggle.addEventListener('click', toggleTheme);
+      initTheme();
+
+      // watch perubahan sistem (optional)
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('theme')) {
+          // Hanya jika user belum pernah manual toggle
+          if (e.matches) {
+            applyTheme('dark');
+          } else {
+            applyTheme('light');
+          }
+        }
+      });
+
+      // ======================= LINKS COMMUNITY (DAPAT DIGANTI) =======================
+      // Ganti link discord dan whatsapp dengan invitemu sendiri di sini !
+      const discordInviteUrl = "https://discord.gg/ZsBXhNAq6h";   // <-- ganti dengan invite discord asli
+      const whatsappInviteUrl = "https://chat.whatsapp.com/BNrTm2Gwf1z9IHzB0NJg7X";  // <-- ganti dengan link grup WA asli
+      
+      const discordBtn = document.getElementById('discordLink');
+      const whatsappBtn = document.getElementById('whatsappLink');
+      
+      if (discordBtn) {
+        discordBtn.href = discordInviteUrl;
+      }
+      if (whatsappBtn) {
+        whatsappBtn.href = whatsappInviteUrl;
+      }
+
+      // Optional: tambahkan efek modern hover pada tombol (sudah di css)
+      // Juga beri notif untuk demo jika link masih placeholder (opsional)
+      const showDemoNotice = (platform) => {
+        const isPlaceholderDiscord = discordInviteUrl.includes("placeholder");
+        const isPlaceholderWhatsapp = whatsappInviteUrl.includes("placeholder");
+        if ((platform === 'discord' && isPlaceholderDiscord) || (platform === 'whatsapp' && isPlaceholderWhatsapp)) {
+          // Bisa muncul alert tidak mengganggu, tapi biar interaktif.
+          // Lebih baik tampilkan tooltip native?
+          console.log(`🔧 Ganti link ${platform} dengan invite sesungguhnya di variable javascript.`);
+        }
+      };
+      
+      discordBtn?.addEventListener('click', (e) => {
+        if (discordInviteUrl.includes("placeholder")) {
+          e.preventDefault();
+          alert("🔧 Siapkan invite Discord! Ganti variable discordInviteUrl pada file HTML dengan link server Discord asli.");
+        } else {
+          // Link valid, biarkan melanjutkan
+        }
+      });
+      
+      whatsappBtn?.addEventListener('click', (e) => {
+        if (whatsappInviteUrl.includes("placeholder")) {
+          e.preventDefault();
+          alert("📱 Ganti link WhatsApp! Update variable whatsappInviteUrl dengan tautan grup WhatsApp yang asli.");
+        }
+      });
+      
+      // tambahan efek menawan: tooltip dinamis buat social media footer (hanya gaya)
+      const socialLinks = document.querySelectorAll('.social-icons a');
+      socialLinks.forEach(link => {
+        link.addEventListener('mouseenter', (e) => {
+          link.style.transition = 'all 0.2s ease';
+        });
+      });
+
+      // efek modern: ganti background card saat hover sudah oke 
+      // memberi sentuhan micro-interaction pada tombol theme toggle
+      themeToggle.addEventListener('mousedown', () => {
+        themeToggle.style.transform = 'scale(0.96)';
+      });
+      themeToggle.addEventListener('mouseup', () => {
+        themeToggle.style.transform = 'scale(1)';
+      });
+      themeToggle.addEventListener('mouseleave', () => {
+        themeToggle.style.transform = 'scale(1)';
+      });
+    })();
+  </script>
+</body>
+</html>
